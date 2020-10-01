@@ -4,60 +4,49 @@ const NAMES = [`Иван`, `Хуан Себастьян`, `Мария`, `Кри�
 const FAMILY_NAMES = [`да Марья`, `Верон`, `Мирабелла`, `Вальц`, `Онопко`, `Топольницкая`, `Нионго`, `Ирвинг`];
 const COAT_COLORS = [`rgb(101, 137, 164)`, `rgb(241, 43, 107)`, `rgb(146, 100, 161)`, `rgb(56, 159, 117)`, `rgb(215, 210, 55)`, `rgb(0, 0, 0)`];
 const EYE_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
+const HERO_COUNT = 4;
 
-let setup = document.querySelector(`.setup`);
-setup.classList.remove(`hidden`);
+const setupWindow = document.querySelector(`.setup`);
+const wizardTemplate = document.querySelector(`#similar-wizard-template`).content.querySelector(`.setup-similar-item`);
+const setupWizardList = document.querySelector(`.setup-similar-list`);
+const setupSimilar = setupWindow.querySelector(`.setup-similar`);
+
+setupWindow.classList.remove(`hidden`);
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
-/**
- * Function generates an array of random data.
- * @param {number} number is size of the array.
- * @return {[]} array with random data.
- */
-function generateHeroes(number) {
-  let result = [];
-  for (let i = 0; i < number; i++) {
-    let heroObject = {};
-    heroObject.name = `${NAMES[getRandomInt(NAMES.length)]} ${FAMILY_NAMES[getRandomInt(FAMILY_NAMES.length)]}`;
-    heroObject.coatColor = COAT_COLORS[getRandomInt(COAT_COLORS.length)];
-    heroObject.eyesColor = EYE_COLORS[getRandomInt(EYE_COLORS.length)];
-    result.push(heroObject);
+function generateHeroes(count) {
+  const heroes = [];
+  for (let i = 0; i < count; i++) {
+    const generatedNameValue = `${NAMES[getRandomInt(NAMES.length)]} ${FAMILY_NAMES[getRandomInt(FAMILY_NAMES.length)]}`;
+    const generatedCoatColorValue = COAT_COLORS[getRandomInt(COAT_COLORS.length)];
+    const generatedEyesColorValue = EYE_COLORS[getRandomInt(EYE_COLORS.length)];
+    heroes.push({
+      name: generatedNameValue,
+      coatColor: generatedCoatColorValue,
+      eyesColor: generatedEyesColorValue
+    });
   }
-  return result;
+  return heroes;
 }
 
-/**
- * Function creates a DOM element based on js object.
- * @param {object} template is an html template for the DOM element
- * @param {object} hero is the based js object
- * @return {ActiveX.IXMLDOMNode | Node} a ready node.
- */
-function addHero(template, hero) {
-  let result = template.cloneNode(true);
-  result.querySelector(`.setup-similar-label`).textContent = hero.name;
-  result.querySelector(`.wizard-coat`).style.fill = hero.coatColor;
-  result.querySelector(`.wizard-eyes`).style.fill = hero.eyesColor;
-  return result;
+function addHero(heroData) {
+  const hero = wizardTemplate.cloneNode(true);
+  hero.querySelector(`.setup-similar-label`).textContent = heroData.name;
+  hero.querySelector(`.wizard-coat`).style.fill = heroData.coatColor;
+  hero.querySelector(`.wizard-eyes`).style.fill = heroData.eyesColor;
+  return hero;
 }
 
-/**
- * Function fills a fragment by the objects and it adds the fragment to the page.
- * @param {[]} heroes is an array of the objects to fill the fragment.
- * @param {String} target is a class of the target element to add the fragment.
- */
-function addHeroes(heroes, target) {
-  let template = document.querySelector(`#similar-wizard-template`)
-    .content
-    .querySelector(`.setup-similar-item`);
-  let fragment = document.createDocumentFragment();
+function addHeroes(heroes) {
+  const fragment = document.createDocumentFragment();
   for (let hero of heroes) {
-    fragment.appendChild(addHero(template, hero));
+    fragment.appendChild(addHero(hero));
   }
-  setup.querySelector(target).appendChild(fragment);
+  setupWizardList.appendChild(fragment);
 }
 
-addHeroes(generateHeroes(4), `.setup-similar-list`);
-setup.querySelector(`.setup-similar`).classList.remove(`hidden`);
+addHeroes(generateHeroes(HERO_COUNT));
+setupSimilar.classList.remove(`hidden`);

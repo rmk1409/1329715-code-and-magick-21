@@ -82,8 +82,8 @@ const onCloseButtonKeydown = (evt) => {
 const onCloseButtonClick = () => closeSetup();
 
 const submitForm = () => {
-  let validity = setupUserName.validity;
-  if (!(validity.tooShort || validity.tooLong)) {
+  const validity = setupUserName.validity;
+  if (!(validity.tooShort || validity.tooLong || validity.valueMissing)) {
     setupWizardForm.submit();
   }
 };
@@ -108,19 +108,19 @@ setupOpen.addEventListener(`click`, onOpenButtonClick);
 setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
 
 const onWizardCoatClick = function () {
-  let newColor = COAT_COLORS[getRandomInt(COAT_COLORS.length)];
+  const newColor = COAT_COLORS[getRandomInt(COAT_COLORS.length)];
   setupWizardCoat.style.fill = newColor;
   inputCoatColor.value = newColor;
 };
 
 const onWizardEyesClick = function () {
-  let newColor = EYE_COLORS[getRandomInt(EYE_COLORS.length)];
+  const newColor = EYE_COLORS[getRandomInt(EYE_COLORS.length)];
   setupWizardEyes.style.fill = newColor;
   inputEyesColor.value = newColor;
 };
 
 const onFireballClick = function () {
-  let newColor = FIREBALL_COLORS[getRandomInt(FIREBALL_COLORS.length)];
+  const newColor = FIREBALL_COLORS[getRandomInt(FIREBALL_COLORS.length)];
   setupFireball.style.backgroundColor = newColor;
   inputFireballColor.value = newColor;
 };

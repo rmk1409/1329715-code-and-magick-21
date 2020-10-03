@@ -40,17 +40,17 @@ function paintUpperText(ctx) {
 }
 
 function paintStatisticForUsers(ctx, names, times) {
-  let maxTime = times.sort()[times.length - 1];
+  const maxTime = times.sort()[times.length - 1];
   for (let i = 0; i < names.length; i++) {
-    let currentName = names[i];
-    let currentTime = times[i];
+    const currentName = names[i];
+    const currentTime = times[i];
     // name
-    let currentX = START_X + ((COLUMN_GAP + COLUMN_WIDTH) * i);
+    const currentX = START_X + ((COLUMN_GAP + COLUMN_WIDTH) * i);
     ctx.fillStyle = TEXT_COLOR;
     ctx.fillText(currentName, currentX, START_Y);
     // column
-    let currentColumnHeight = (currentTime / maxTime * CHART_HEIGHT);
-    let columnY = (START_Y - HORIZONTAL_GAP / 2) - CHART_HEIGHT + (CHART_HEIGHT - currentColumnHeight);
+    const currentColumnHeight = (currentTime / maxTime * CHART_HEIGHT);
+    const columnY = (START_Y - HORIZONTAL_GAP / 2) - CHART_HEIGHT + (CHART_HEIGHT - currentColumnHeight);
     ctx.fillStyle = (YOUR_NAME === currentName) ? YOUR_COLOR : (`hsla(${OTHER_BASE_COLOR}, ${Math.random()})`);
     ctx.fillRect(currentX, columnY, COLUMN_WIDTH, currentColumnHeight);
     // number

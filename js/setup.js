@@ -33,7 +33,7 @@ function getRandomInt(max) {
 
 // OPEN & CLOSE SETUP POPUP WINDOW
 
-const openSetup = () => {
+function openSetup() {
   setupWindow.classList.remove(`hidden`);
 
   window.addEventListener(`keydown`, onWindowKeydown);
@@ -45,12 +45,9 @@ const openSetup = () => {
   setupWizardCoat.addEventListener(`click`, onWizardCoatClick);
   setupWizardEyes.addEventListener(`click`, onWizardEyesClick);
   setupFireball.addEventListener(`click`, onFireballClick);
+}
 
-  setupOpen.removeEventListener(`click`, onOpenButtonClick);
-  setupOpenIcon.removeEventListener(`keydown`, onOpenIconKeydown);
-};
-
-const closeSetup = () => {
+function closeSetup() {
   setupWindow.classList.add(`hidden`);
 
   window.removeEventListener(`keydown`, onWindowKeydown);
@@ -62,68 +59,74 @@ const closeSetup = () => {
   setupWizardCoat.removeEventListener(`click`, onWizardCoatClick);
   setupWizardEyes.removeEventListener(`click`, onWizardEyesClick);
   setupFireball.removeEventListener(`click`, onFireballClick);
-
-  setupOpen.addEventListener(`click`, onOpenButtonClick);
-  setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
-};
-
-const onWindowKeydown = (evt) => {
-  if (evt.key === `Escape` && (document.activeElement !== setupUserName)) {
-    closeSetup();
-  }
-};
-
-const onCloseButtonKeydown = (evt) => {
-  if (evt.key === `Enter`) {
-    closeSetup();
-  }
-};
-
-const onCloseButtonClick = () => closeSetup();
-
-const submitForm = () => {
-  const validity = setupUserName.validity;
-  if (!(validity.tooShort || validity.tooLong || validity.valueMissing)) {
-    setupWizardForm.submit();
-  }
-};
-
-const onSubmitButtonClick = () => submitForm();
-
-const onSubmitButtonKeydown = function (evt) {
-  if (evt.key === `Enter`) {
-    submitForm();
-  }
-};
-
-const onOpenButtonClick = () => openSetup();
-
-const onOpenIconKeydown = (evt) => {
-  if (evt.key === `Enter`) {
-    openSetup();
-  }
-};
+}
 
 setupOpen.addEventListener(`click`, onOpenButtonClick);
 setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
 
-const onWizardCoatClick = function () {
+function onWindowKeydown(evt) {
+  if (evt.key === `Escape` && (document.activeElement !== setupUserName)) {
+    closeSetup();
+  }
+}
+
+function onCloseButtonKeydown(evt) {
+  if (evt.key === `Enter`) {
+    closeSetup();
+  }
+}
+
+function onCloseButtonClick() {
+  closeSetup();
+}
+
+function submitForm() {
+  const validity = setupUserName.validity;
+  if (!(validity.tooShort || validity.tooLong || validity.valueMissing)) {
+    setupWizardForm.submit();
+  }
+}
+
+function onSubmitButtonClick() {
+  submitForm();
+}
+
+function onSubmitButtonKeydown(evt) {
+  if (evt.key === `Enter`) {
+    submitForm();
+  }
+}
+
+function onOpenButtonClick() {
+  openSetup();
+}
+
+function onOpenIconKeydown(evt) {
+  if (evt.key === `Enter`) {
+    openSetup();
+  }
+}
+
+setupOpen.addEventListener(`click`, onOpenButtonClick);
+setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
+
+function onWizardCoatClick() {
   const newColor = COAT_COLORS[getRandomInt(COAT_COLORS.length)];
   setupWizardCoat.style.fill = newColor;
   inputCoatColor.value = newColor;
-};
+}
 
-const onWizardEyesClick = function () {
+function onWizardEyesClick() {
   const newColor = EYE_COLORS[getRandomInt(EYE_COLORS.length)];
   setupWizardEyes.style.fill = newColor;
   inputEyesColor.value = newColor;
-};
+}
 
-const onFireballClick = function () {
+function onFireballClick() {
   const newColor = FIREBALL_COLORS[getRandomInt(FIREBALL_COLORS.length)];
   setupFireball.style.backgroundColor = newColor;
   inputFireballColor.value = newColor;
-};
+}
 
 // GENERATE RANDOM HEROES
 

@@ -38,5 +38,4 @@
     upload,
     onUploadMousedown
   };
-
 })();

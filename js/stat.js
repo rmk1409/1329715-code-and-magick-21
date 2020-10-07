@@ -60,9 +60,13 @@
     }
   }
 
-  window.renderStatistics = (ctx, names, times) => {
+  function renderStatistics(ctx, names, times) {
     paintCloud(ctx);
     paintUpperText(ctx);
     paintStatisticForUsers(ctx, names, times);
+  }
+
+  window.stat = {
+    renderStatistics
   };
 })();

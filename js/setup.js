@@ -8,7 +8,6 @@
   const setupClose = setupWindow.querySelector(`.setup-close`);
   const setupUserName = setupWindow.querySelector(`.setup-user-name`);
   const setupWizardForm = setupWindow.querySelector(`.setup-wizard-form`);
-  const submitButton = setupWindow.querySelector(`.setup-submit`);
 
   const setupWizard = setupWindow.querySelector(`.setup-wizard`);
   const setupWizardCoat = setupWizard.querySelector(`.wizard-coat`);
@@ -24,14 +23,13 @@
     window.addEventListener(`keydown`, onWindowKeydown);
     setupClose.addEventListener(`keydown`, onCloseButtonKeydown);
     setupClose.addEventListener(`click`, onCloseButtonClick);
-    submitButton.addEventListener(`click`, onSubmitButtonClick);
-    submitButton.addEventListener(`keydown`, onSubmitButtonKeydown);
 
     setupWizardCoat.addEventListener(`click`, onWizardCoatClick);
     setupWizardEyes.addEventListener(`click`, onWizardEyesClick);
     setupFireball.addEventListener(`click`, onFireballClick);
 
     window.move.upload.addEventListener(`mousedown`, window.move.onUploadMousedown);
+    setupWizardForm.addEventListener(`submit`, onFormSubmit);
   }
 
   function closeSetup() {
@@ -40,8 +38,6 @@
     window.removeEventListener(`keydown`, onWindowKeydown);
     setupClose.removeEventListener(`keydown`, onCloseButtonKeydown);
     setupClose.removeEventListener(`click`, onCloseButtonClick);
-    submitButton.removeEventListener(`click`, onSubmitButtonClick);
-    submitButton.removeEventListener(`keydown`, onSubmitButtonKeydown);
 
     setupWizardCoat.removeEventListener(`click`, onWizardCoatClick);
     setupWizardEyes.removeEventListener(`click`, onWizardEyesClick);
@@ -49,10 +45,8 @@
 
     window.move.upload.removeEventListener(`mousedown`, window.move.onUploadMousedown);
     resetSetupPosition();
+    setupWizardForm.removeEventListener(`submit`, onFormSubmit);
   }
-
-  setupOpen.addEventListener(`click`, onOpenButtonClick);
-  setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
 
   function resetSetupPosition() {
     setupWindow.style.top = ``;
@@ -75,21 +69,11 @@
     closeSetup();
   }
 
-  function submitForm() {
-    const validity = setupUserName.validity;
-    if (!(validity.tooShort || validity.tooLong || validity.valueMissing)) {
-      setupWizardForm.submit();
-    }
-  }
-
-  function onSubmitButtonClick() {
-    submitForm();
-  }
-
-  function onSubmitButtonKeydown(evt) {
-    if (evt.key === `Enter`) {
-      submitForm();
-    }
+  function onFormSubmit(evt) {
+    evt.preventDefault();
+    window.backend.save(new FormData(setupWizardForm), function () {
+      setupWindow.classList.add(`hidden`);
+    });
   }
 
   function onOpenButtonClick() {
@@ -101,9 +85,6 @@
       openSetup();
     }
   }
-
-  setupOpen.addEventListener(`click`, onOpenButtonClick);
-  setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
 
   function onWizardCoatClick() {
     const newColor = window.colorGenerator.getRandomCoat();
@@ -122,4 +103,13 @@
     setupFireball.style.backgroundColor = newColor;
     inputFireballColor.value = newColor;
   }
+
+  function run() {
+    setupOpen.addEventListener(`click`, onOpenButtonClick);
+    setupOpenIcon.addEventListener(`keydown`, onOpenIconKeydown);
+  }
+
+  window.setup = {
+    run
+  };
 })();

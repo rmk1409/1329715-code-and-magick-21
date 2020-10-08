@@ -1,71 +1,72 @@
 'use strict';
 
 (function () {
+  const SUCCESS_STATUS_CODE = 200;
+  const TIMEOUT = 10000;
+  const URL_DATA = `https://21.javascript.pages.academy/code-and-magick/data`;
+  const URL_FORM = `https://21.javascript.pages.academy/code-and-magick`;
+
   const errorPopup = document.querySelector(`.error-popup`);
   const errorMsg = errorPopup.querySelector(`.error-popup--msg`);
   const errorButton = errorPopup.querySelector(`.error-popup--button`);
 
-  function load(onLoad, onError = onLoadError) {
-    const URL_DATA = `https://21.javascript.pages.academy/code-and-magick/data`;
-    const TIMEOUT = 10000;
-    const request = new XMLHttpRequest();
+  function requestErrorCB(onError) {
+    onError(`There is connection error`);
+  }
 
-    request.addEventListener(`load`, function () {
-      const SUCCESS_STATUS_CODE = 200;
-      const currentStatusCode = request.status;
+  function requestTimeoutCB(onError) {
+    onError(`There is timeout error, passed more than ${TIMEOUT / 1000} sec.`);
+  }
 
-      switch (currentStatusCode) {
-        case SUCCESS_STATUS_CODE:
+  function generalRequestLoadCB(request, onLoad, onError, isRequestResponse) {
+    const currentStatusCode = request.status;
+
+    switch (currentStatusCode) {
+      case SUCCESS_STATUS_CODE:
+        if (isRequestResponse) {
           onLoad(request.response);
-          break;
-        default:
-          onError(`There is an error, status code is - ${currentStatusCode}.`);
-      }
-    });
+        } else {
+          onLoad();
+        }
+        break;
+      default:
+        onError(`There is an error, status code is - ${currentStatusCode}.`);
+    }
+  }
 
-    request.addEventListener(`error`, function () {
-      onError(`There is connection error`);
-    });
-
-    request.addEventListener(`timeout`, function () {
-      onError(`There is timeout error, passed more than ${TIMEOUT / 1000} sec.`);
-    });
-
-    request.responseType = `json`;
+  function generalLoad(onLoad, onError, loadCB, errorCB, timeoutCB, url, methodType, responseType, data) {
+    const request = new XMLHttpRequest();
+    if (responseType) {
+      request.responseType = responseType;
+    }
     request.timeout = TIMEOUT;
-    request.open(`GET`, URL_DATA);
-    request.send();
+
+    request.addEventListener(`load`, loadCB.bind(null, request, onLoad, onError));
+    request.addEventListener(`error`, errorCB.bind(null, onError));
+    request.addEventListener(`timeout`, timeoutCB.bind(null, onError));
+
+    request.open(methodType, url);
+    if (data) {
+      request.send(data);
+    } else {
+      request.send();
+    }
+  }
+
+  function requestLoadCB(request, onLoad, onError) {
+    generalRequestLoadCB(request, onLoad, onError, true);
+  }
+
+  function saveRequestLoadCB(request, onLoad, onError) {
+    generalRequestLoadCB(request, onLoad, onError);
+  }
+
+  function load(onLoad, onError = onLoadError) {
+    generalLoad(onLoad, onError, requestLoadCB, requestErrorCB, requestTimeoutCB, URL_DATA, `GET`, `json`);
   }
 
   function save(data, onLoad, onError = onLoadError) {
-    const URL_FORM = `https://21.javascript.pages.academy/code-and-magick`;
-    const TIMEOUT = 10000;
-    const request = new XMLHttpRequest();
-
-    request.addEventListener(`load`, function () {
-      const SUCCESS_STATUS_CODE = 200;
-      const currentStatusCode = request.status;
-
-      switch (currentStatusCode) {
-        case SUCCESS_STATUS_CODE:
-          onLoad();
-          break;
-        default:
-          onError(`There is an error, status code is - ${currentStatusCode}.`);
-      }
-    });
-
-    request.addEventListener(`error`, function () {
-      onError(`There is connection error`);
-    });
-
-    request.addEventListener(`timeout`, function () {
-      onError(`There is timeout error, passed more than ${TIMEOUT / 1000} sec.`);
-    });
-
-    request.timeout = TIMEOUT;
-    request.open(`POST`, URL_FORM);
-    request.send(data);
+    generalLoad(onLoad, onError, saveRequestLoadCB, requestErrorCB, requestTimeoutCB, URL_FORM, `POST`, undefined, data);
   }
 
   function onErrorButtonClick() {

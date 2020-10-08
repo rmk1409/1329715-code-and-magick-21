@@ -73,7 +73,7 @@
     evt.preventDefault();
     window.backend.save(new FormData(setupWizardForm), function () {
       setupWindow.classList.add(`hidden`);
-    });
+    }, window.error.onLoadError);
   }
 
   function onOpenButtonClick() {

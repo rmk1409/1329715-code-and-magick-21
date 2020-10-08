@@ -31,7 +31,7 @@
   }
 
   function addHeroesToSetupSimilar() {
-    window.backend.load(addHeroes);
+    window.backend.load(addHeroes, window.error.onLoadError);
     setupSimilar.classList.remove(`hidden`);
   }
 

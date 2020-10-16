@@ -8,6 +8,8 @@
   const setupWizardList = document.querySelector(`.setup-similar-list`);
   const setupSimilar = setupWindow.querySelector(`.setup-similar`);
 
+  let wizards = [];
+
   function addHero(heroData) {
     const hero = wizardTemplate.cloneNode(true);
     hero.querySelector(`.setup-similar-label`).textContent = heroData.name;
@@ -21,6 +23,7 @@
   }
 
   function addHeroes(heroes) {
+    wizards = heroes;
     const fragment = document.createDocumentFragment();
     const minShownHeroesCount = Math.min(heroes.length, HERO_COUNT);
     shuffleHeroes(heroes);

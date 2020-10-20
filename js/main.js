@@ -1,6 +1,6 @@
 'use strict';
 
 (function () {
-  window.heroGenerator.addHeroesToSetupSimilar();
+  window.wizard.addWizardsToSetupSimilar();
   window.setup.run();
 })();

@@ -11,10 +11,9 @@
     switch (currentStatusCode) {
       case SUCCESS_STATUS_CODE:
         if (request.responseURL === GET_DATA_URL) {
-          onLoad(request.response);
-        } else {
-          onLoad();
+          window.wizard.wizards.push(...request.response);
         }
+        onLoad();
         break;
       default:
         onError(`There is an error, status code is - ${currentStatusCode}.`);

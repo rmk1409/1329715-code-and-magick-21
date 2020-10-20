@@ -57,13 +57,16 @@
     window.backend.load(addOrUpdateWizards, window.error.onLoadError);
   }
 
+  let coatClickDebounce = window.util.debounce(addOrUpdateWizards);
+  let eyesClickDebounce = window.util.debounce(addOrUpdateWizards);
+
   function onWizardCoatClick() {
     const newColor = window.colorGenerator.getRandomCoat();
     setupWizardCoat.style.fill = newColor;
     inputCoatColor.value = newColor;
 
     currentWizardCoatColor = newColor;
-    addOrUpdateWizards();
+    coatClickDebounce();
   }
 
   function onWizardEyesClick() {
@@ -72,7 +75,7 @@
     inputEyesColor.value = newColor;
 
     currentWizardEyesColor = newColor;
-    addOrUpdateWizards();
+    eyesClickDebounce();
   }
 
   function onFireballClick() {

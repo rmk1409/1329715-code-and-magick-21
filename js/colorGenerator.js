@@ -5,10 +5,6 @@
   const EYE_COLORS = [`black`, `red`, `blue`, `yellow`, `green`];
   const FIREBALL_COLORS = [`#ee4830`, `#30a8ee`, `#5ce6c0`, `#e848d5`, `#e6e848`];
 
-  const DEFAULT_COAT_COLOR = COAT_COLORS[0];
-  const DEFAULT_EYE_COLOR = EYE_COLORS[0];
-  const DEFAULT_FIREBALL_COLOR = FIREBALL_COLORS[0];
-
   function getRandomCoat() {
     return COAT_COLORS[window.util.getRandomInt(COAT_COLORS.length)];
   }

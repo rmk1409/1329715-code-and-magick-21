@@ -10,10 +10,7 @@
     const currentStatusCode = request.status;
     switch (currentStatusCode) {
       case SUCCESS_STATUS_CODE:
-        if (request.responseURL === GET_DATA_URL) {
-          onLoad(request.response);
-        }
-        onLoad();
+        onLoad(request.response);
         break;
       default:
         onError(`There is an error, status code is - ${currentStatusCode}.`);

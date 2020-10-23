@@ -11,7 +11,7 @@
     errorButton.removeEventListener(`click`, onErrorButtonClick);
   }
 
-  function onLoadError(errorMessage) {
+  function onLoad(errorMessage) {
     errorMsg.textContent = errorMessage;
     errorPopup.classList.remove(`error-popup--hidden`);
 
@@ -19,7 +19,6 @@
   }
 
   window.error = {
-    onErrorButtonClick,
-    onLoadError
+    onLoad
   };
 })();

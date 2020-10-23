@@ -1,6 +1,6 @@
 'use strict';
 
 (function () {
-  window.wizard.addWizardsToSetupSimilar();
+  window.wizard.addSimilarData();
   window.setup.run();
 })();

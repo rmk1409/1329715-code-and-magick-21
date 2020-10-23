@@ -67,6 +67,6 @@
   }
 
   window.stat = {
-    renderStatistics
+    render: renderStatistics
   };
 })();

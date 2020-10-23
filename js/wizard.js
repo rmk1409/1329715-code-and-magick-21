@@ -18,6 +18,9 @@
   const setupWizardEyes = setupWizard.querySelector(`.wizard-eyes`);
   const setupFireball = setupWindow.querySelector(`.setup-fireball-wrap`);
 
+  const coatClickDebounce = window.util.debounce(updateWizards);
+  const eyesClickDebounce = window.util.debounce(updateWizards);
+
   let currentWizardCoatColor = `rgb(101, 137, 164)`;
   let currentWizardEyesColor = `black`;
   let wizards = [];
@@ -41,7 +44,7 @@
     return rank;
   }
 
-  function addOrUpdateWizards() {
+  function updateWizards() {
     sortWizards();
     const fragment = document.createDocumentFragment();
     const minShownHeroesCount = Math.min(wizards.length, HERO_COUNT);
@@ -52,13 +55,17 @@
     setupWizardList.appendChild(fragment);
   }
 
-  function addWizardsToSetupSimilar() {
-    setupSimilar.classList.remove(`hidden`);
-    window.backend.load(addOrUpdateWizards, window.error.onLoadError);
+  function addWizards(wizardsData) {
+    if (wizardsData) {
+      wizards = Array.from(wizardsData);
+      updateWizards();
+    }
   }
 
-  let coatClickDebounce = window.util.debounce(addOrUpdateWizards);
-  let eyesClickDebounce = window.util.debounce(addOrUpdateWizards);
+  function addWizardsToSetupSimilar() {
+    setupSimilar.classList.remove(`hidden`);
+    window.backend.load(addWizards, window.error.onLoad);
+  }
 
   function onWizardCoatClick() {
     const newColor = window.colorGenerator.getRandomCoat();
@@ -97,9 +104,8 @@
   }
 
   window.wizard = {
-    wizards,
-    addWizardsToSetupSimilar,
-    addWizardListeners,
-    removeWizardListeners
+    addSimilarData: addWizardsToSetupSimilar,
+    addListeners: addWizardListeners,
+    removeListeners: removeWizardListeners
   };
 })();

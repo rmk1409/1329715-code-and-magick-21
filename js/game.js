@@ -464,10 +464,10 @@ window.Game = (function () {
       let message;
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          if (window.stat.renderStatistics) {
+          if (window.stat.render) {
             let statistics = this._generateStatistics(new Date() - this.state.startTime);
             let keys = this._shuffleArray(Object.keys(statistics));
-            window.stat.renderStatistics(this.ctx, keys, keys.map(function (it) {
+            window.stat.render(this.ctx, keys, keys.map(function (it) {
               return statistics[it];
             }));
             return;

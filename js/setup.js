@@ -12,7 +12,7 @@
   function openSetup() {
     setupWindow.classList.remove(`hidden`);
     addSetupCloseListeners();
-    window.wizard.addWizardListeners();
+    window.wizard.addListeners();
     window.move.upload.addEventListener(`mousedown`, window.move.onUploadMousedown);
     setupWizardForm.addEventListener(`submit`, onFormSubmit);
   }
@@ -20,7 +20,7 @@
   function closeSetup() {
     setupWindow.classList.add(`hidden`);
     removeSetupCloseListeners();
-    window.wizard.removeWizardListeners();
+    window.wizard.removeListeners();
     window.move.upload.removeEventListener(`mousedown`, window.move.onUploadMousedown);
     resetSetupPosition();
     setupWizardForm.removeEventListener(`submit`, onFormSubmit);
@@ -63,7 +63,7 @@
     evt.preventDefault();
     window.backend.save(new FormData(setupWizardForm), function () {
       setupWindow.classList.add(`hidden`);
-    }, window.error.onLoadError);
+    }, window.error.onLoad);
   }
 
   function onOpenButtonClick() {

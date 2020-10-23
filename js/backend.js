@@ -11,7 +11,7 @@
     switch (currentStatusCode) {
       case SUCCESS_STATUS_CODE:
         if (request.responseURL === GET_DATA_URL) {
-          window.wizard.wizards.push(...request.response);
+          onLoad(request.response);
         }
         onLoad();
         break;

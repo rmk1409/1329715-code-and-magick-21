@@ -14,6 +14,7 @@ function openSetup() {
   window.wizard.addListeners();
   window.move.upload.addEventListener(`mousedown`, window.move.onUploadMousedown);
   setupWizardForm.addEventListener(`submit`, onFormSubmit);
+  window.avatar.addListeners();
 }
 
 function closeSetup() {
@@ -23,6 +24,7 @@ function closeSetup() {
   window.move.upload.removeEventListener(`mousedown`, window.move.onUploadMousedown);
   resetSetupPosition();
   setupWizardForm.removeEventListener(`submit`, onFormSubmit);
+  window.avatar.removeListeners();
 }
 
 function addSetupCloseListeners() {
